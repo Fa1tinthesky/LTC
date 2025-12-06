@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from api.routes import calculator, reports
+from api.routes import calculator, reports, users
 
 app = FastAPI(
     title="LTC API",
@@ -9,6 +9,7 @@ app = FastAPI(
 
 app.include_router(reports.router, prefix="", tags=["reports"])
 app.include_router(calculator.router, prefix="", tags=["calculator"])
+app.include_router(users.router, prefix="", tags=["auth"])
 
 
 @app.get("/")

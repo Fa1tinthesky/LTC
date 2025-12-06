@@ -22,7 +22,7 @@ def create_tables(conn):
     cur.execute("""CREATE TABLE IF NOT EXISTS users(
         phone TEXT PRIMARY KEY,
         fullname TEXT NOT NULL,
-        tarif TEXT NOT NULL
+        tarif TEXT NOT NULL,
     )""")
     # tarifs table (use numeric/integer types)
     cur.execute("""CREATE TABLE IF NOT EXISTS tarifs(
