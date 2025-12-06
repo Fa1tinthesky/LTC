@@ -1,5 +1,5 @@
 - LTC
 
 ```
-  uvicorn app.main:app --reload
+  uvicorn api.main:app --reload
 ```
