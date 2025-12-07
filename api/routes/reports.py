@@ -1,6 +1,7 @@
+import os
 from datetime import datetime
 
-import psycopg2
+from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException
 from google import genai
 from pydantic import BaseModel
@@ -20,7 +21,8 @@ class Category(BaseModel):
     category: str
 
 
-client = genai.Client(api_key="AIzaSyDyDtuIZ6zZ9JVemh8pf1gTb-H1gp8go38")
+load_dotenv()
+client = genai.Client(api_key=os.getenv("GOOGLE_GEMINI_API_KEY"))
 
 
 def classify(content: str):
@@ -28,7 +30,7 @@ def classify(content: str):
         model="gemini-2.5-flash",
         contents=f"""Classify this review into one of the suggested categories. Return only one word in your answer that indicates the name of the category.
             Review:{content}
-            Categories: connection, speed, support, price, coverage.""",
+            Categories: connection, speed, support, price, coverage, internet.""",
     )
     return response.text
 
@@ -37,7 +39,7 @@ def classify(content: str):
 async def write_report(data: ReportCategory):
     category = classify(data.details)
     now = datetime.now()
-    conn = postgres.ConnectToPostgres()
+    conn = postgres.get_connection()
     cur = conn.cursor()
     try:
         cur.execute(
@@ -52,12 +54,11 @@ async def write_report(data: ReportCategory):
         raise HTTPException(status_code=500, detail="Failed to write report")
     finally:
         cur.close()
-        conn.close()
 
 
 @router.get("/view_categories")
 async def view_categories():
-    conn = postgres.ConnectToPostgres()
+    conn = postgres.get_connection()
     cur = conn.cursor()
     try:
         cur.execute(
@@ -71,12 +72,11 @@ async def view_categories():
         raise HTTPException(status_code=500, detail="Failed to retrieve categories")
     finally:
         cur.close()
-        conn.close()
 
 
 @router.post("/view_by_category")
 async def view_by_category(data: Category):
-    conn = postgres.ConnectToPostgres()
+    conn = postgres.get_connection()
     cur = conn.cursor()
     try:
         cur.execute(
@@ -96,4 +96,3 @@ async def view_by_category(data: Category):
         )
     finally:
         cur.close()
-        conn.close()
