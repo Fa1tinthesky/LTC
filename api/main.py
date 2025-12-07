@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from api.routes import calculator, reports, users
+from api.routes import calculator, reports, users, calc_expenses
 
 app = FastAPI(
     title="LTC API",
