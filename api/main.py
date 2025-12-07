@@ -1,12 +1,19 @@
+import os
+
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.routes import calculator, reports, users, calc_expenses
 
-app = FastAPI(
-    title="LTC API",
-    version="1.0.0",
-)
+
+async def lifespan(app: FastAPI):
+    load_dotenv()
+    yield
+    # Add any shutdown tasks here
+
+
+app = FastAPI(title="LTC API", version="1.0.0", lifespan=lifespan)
 
 origins = [
     "*",

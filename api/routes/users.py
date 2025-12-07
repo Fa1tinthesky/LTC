@@ -7,7 +7,7 @@ router = APIRouter()
 
 @router.post("/user_log_in")
 async def user_log_in(phone: str):
-    conn = postgres.ConnectToPostgres()
+    conn = postgres.get_connection()
     cur = conn.cursor()
     try:
         cur.execute("SELECT phone FROM users WHERE phone = %s", (phone,))
@@ -21,7 +21,6 @@ async def user_log_in(phone: str):
         raise HTTPException(status_code=500, detail="Failed to log in user")
     finally:
         cur.close()
-        conn.close()
 
 
 @router.post("/admin_log_in")
