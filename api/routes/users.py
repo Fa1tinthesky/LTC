@@ -25,7 +25,7 @@ async def user_log_in(phone: str):
 
 @router.post("/admin_log_in")
 async def admin_log_in(password: str):
-    ADMIN_PASSWORD = "admin"  # Example admin password
+    ADMIN_PASSWORD = "admin"
     if password == ADMIN_PASSWORD:
         return {"message": "Admin logged in successfully", "ok": True}
     else:
