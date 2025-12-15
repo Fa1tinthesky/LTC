@@ -1,19 +1,28 @@
 import psycopg2
 
 
-def ConnectToPostgres():
-    try:
-        conn = psycopg2.connect(
-            user="prime",
-            password="sPELypo3KLyvEY2HHtrOgYwI3mrYFgF1",
-            host="dpg-d4q1f7adbo4c73bjpogg-a.singapore-postgres.render.com",
-            dbname="ftc_c4oc",
-        )
-        conn.autocommit = False
-        return conn
-    except Exception as e:
-        print("Error connecting to PostgreSQL database:", e)
-        return None
+_connection = None
+
+
+def get_connection():
+    global _connection
+    if _connection is None or _connection.closed != 0:
+        try:
+            _connection = psycopg2.connect(
+                user="prime",
+                password="sPELypo3KLyvEY2HHtrOgYwI3mrYFgF1",
+                host="dpg-d4q1f7adbo4c73bjpogg-a.singapore-postgres.render.com",
+                dbname="ftc_c4oc",
+            )
+            _connection.autocommit = False
+            print("New connection established")
+        except Exception as e:
+            print("Error connecting to PostgreSQL database:", e)
+            return None
+    return _connection
+
+
+ConnectToPostgres = get_connection
 
 
 def create_tables(conn):
