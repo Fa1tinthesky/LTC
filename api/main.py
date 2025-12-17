@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.routes import calc_expenses, calculator, recommend, reports, users
+from api.routes import calc_expenses, calculator, recommend, reports, users, ping
 
 
 async def lifespan(app: FastAPI):
@@ -33,6 +33,7 @@ app.include_router(calculator.router, prefix="", tags=["calculator"])
 app.include_router(users.router, prefix="", tags=["auth"])
 app.include_router(calc_expenses.router, prefix="", tags=["expenses"])
 app.include_router(recommend.router, prefix="", tags=["recommendations"])
+app.include_router(ping.router, prefix="", tags=["anti_timeout"])
 
 
 @app.get("/")
