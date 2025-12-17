@@ -1,6 +1,6 @@
-import os
 from datetime import datetime
 
+import os
 from dotenv import load_dotenv
 from fastapi import APIRouter, HTTPException
 from google import genai
@@ -20,10 +20,14 @@ class ReportCategory(BaseModel):
 class Category(BaseModel):
     category: str
 
+def get_gemini_client():
+    api_key = os.getenv("GOOGLE_GEMINI_API_KEY")
+    if not api_key:
+        raise RuntimeError("GOOGLE_GEMINI_API_KEY is not set")
+    return genai.Client(api_key=api_key)
 
-load_dotenv()
-client = genai.Client(api_key=os.getenv("GOOGLE_GEMINI_API_KEY"))
 
+client = get_gemini_client()
 
 def classify(content: str):
     response = client.models.generate_content(
