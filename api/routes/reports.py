@@ -80,7 +80,7 @@ async def view_by_category(data: Category):
     cur = conn.cursor()
     try:
         cur.execute(
-            """SELECT phone, report_date, details, stars FROM reports WHERE category = %s""",
+            """SELECT phone, report_date, details, stars FROM reports WHERE category = %s ORDER BY report_date DESC""",
             (data.category,),
         )
         results = cur.fetchall()

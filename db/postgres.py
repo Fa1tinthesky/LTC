@@ -22,7 +22,6 @@ def get_connection():
     return _connection
 
 
-# Deprecated: alias for backward compatibility during refactor, though we will replace usages.
 ConnectToPostgres = get_connection
 
 

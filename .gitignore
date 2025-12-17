@@ -1,2 +1,8 @@
+# python
+api/__pycache__
+db/__pycache__
+*.pyc
+
 .venv
 .git
+.env

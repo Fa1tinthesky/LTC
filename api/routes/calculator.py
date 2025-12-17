@@ -17,14 +17,6 @@ class CalculatorModel(BaseModel):
 @router.post("/calculator")
 async def calculator(data: CalculatorModel):
     tarif_data = wrapper("SELECT * FROM tarifs")
-    """
-    tarif TEXT PRIMARY KEY, 0
-    tar_name TEXT NOT NULL, 1
-    tar_price NUMERIC NOT NULL, 2
-    tar_minutes INTEGER NOT NULL, 3
-    tar_sms INTEGER NOT NULL, 4
-    tar_megabytes BIGINT NOT NULL, 5
-    """
 
     tarifs_sorted = []
 
@@ -63,8 +55,6 @@ async def calculator(data: CalculatorModel):
             * (1 if data.min_sum <= tr_price <= data.max_sum else w_out / w_price)
             * w_price
         )
-
-        # print(value)
 
         tarifs_sorted.append(
             {
